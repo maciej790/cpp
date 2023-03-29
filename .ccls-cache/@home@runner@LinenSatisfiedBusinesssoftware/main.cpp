@@ -1,65 +1,87 @@
-////////////////////////////////////////// ZADANIE 1, 2 ///////////////////////////////////
-///////////////////////////////////////// NAZWA: [byleco].cpp ////////////////////////////////////
+#include <iostream>
+using namespace std;
+
+class Pojazd {
+public:
+  string silnik = "Diesel";
+  void uruchom() { cout << "silnik pracuje" << endl; }
+};
+
+class Samochod : public virtual Pojazd {
+public:
+  int liczba_kol = 4;
+  int liczba_miejsc = 5;
+  void jedz() { cout << "Obiekt jedzie" << endl; }
+  void hamuj() { cout << "Obiekt hamuje" << endl; }
+};
+
+class Lodz : public virtual Pojazd {
+public:
+  float wypornosc = 15000.20;
+  int liczba_miejsc = 20;
+  void plyn() { cout << "Obiekt plynie" << endl; }
+  void hamuj() { cout << "Obiekt hamuje" << endl; }
+};
+
+class Samolot : public virtual Pojazd {
+public:
+  int pulap = 5000;
+  int liczba_miejsc = 250;
+  void lec() { cout << "Obiekt leci" << endl; }
+  void hamuj() { cout << "Obiekt hamuje" << endl; }
+};
+
+class Amfibia : public Samochod, public Lodz {};
+
+class Hydroplan : public Lodz, public Samolot {};
+
+int main() {
+  Amfibia amfibia;
+  amfibia.Samochod::uruchom();
+  amfibia.jedz();
+  amfibia.plyn();
+  amfibia.Samochod::hamuj();
+
+  Hydroplan hydroplan;
+  hydroplan.Lodz::uruchom();
+  hydroplan.plyn();
+  hydroplan.lec();
+  hydroplan.Lodz::hamuj();
+}
 
 #include <iostream>
 using namespace std;
 
-class Osoba {
-protected:
-  string imie;
-  int wiek;
+class Bazowa {
+private:
+  char bufor1kB[1024];
 
 public:
-  void ustawWszystko(string imie, int wiek) {
-    this->imie = imie;
-    this->wiek = wiek;
-  }
-  void wypiszWszystko();
-  string wypiszImie();
-  void ustawImie(string imie);
-  void ustawWiek(int wiek);
-  int wypiszWiek();
+  void wyswietl(){};
 };
 
-class Kobieta : public Osoba {
-public:
-  string wypiszImie();
-};
-
-class Mezczyzna : public Kobieta {};
-
-void Osoba::wypiszWszystko() {
-  cout << "Imie: " << imie << endl << "Wiek: " << wiek << endl;
-}
-
-string Kobieta::wypiszImie() { return this->imie; }
-string Osoba::wypiszImie() { return this->imie; }
-void Osoba::ustawImie(string imie) { this->imie = imie; }
-void Osoba::ustawWiek(int wiek) { this->wiek = wiek; }
-int Osoba::wypiszWiek() { return this->wiek; }
+class Posrednia1 : public virtual Bazowa {};
+class Posrednia2 : public virtual Bazowa {};
+class Koncowa : public Posrednia1, public Posrednia2 {};
 
 int main() {
-  string imie;
-  int wiek;
-  Osoba Karol;
-  cin >> imie;
-  cin >> wiek;
-  Karol.ustawWszystko(imie, wiek);
-  Karol.wypiszWszystko();
-  Kobieta Alicja;
-  cin >> imie;
-  cin >> wiek;
-  Alicja.ustawWszystko(imie, wiek);
-  Alicja.wypiszWszystko();
-  cout << Alicja.wypiszImie() << endl;
-  Mezczyzna mezczyzna;
-  cin >> imie;
-  cin >> wiek;
-  mezczyzna.ustawWszystko(imie, wiek);
-  mezczyzna.wypiszWszystko();
-  cout << mezczyzna.wypiszImie() << endl;
-  return 0;
+  Koncowa obiekt;
+  cout << sizeof(Koncowa);
+  obiekt.Posrednia1::wyswietl();
 }
 
-////////////////////////////////////////// ZADANIE 1, 2 ///////////////////////////////////
-///////////////////////////////////////// NAZWA: [byleco].cpp ////////////////////////////////////
+#include <iostream>
+using namespace std;
+
+class Bazowa {
+public:
+  void wyswietl(){};
+};
+
+class Posrednia : public Bazowa {};
+class Koncowa : public Bazowa, public Posrednia {};
+
+int main() {
+  Koncowa obiekt;
+  obiekt.Posrednia::wyswietl();
+}
